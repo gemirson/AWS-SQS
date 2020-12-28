@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AWS.SQS.Publish", "..\src\AWS.SQS.Publish\AWS.SQS.Publish.csproj", "{F3C9B0AE-0704-47A3-A4E5-9DD1A6E35ED5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F3C9B0AE-0704-47A3-A4E5-9DD1A6E35ED5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3C9B0AE-0704-47A3-A4E5-9DD1A6E35ED5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3C9B0AE-0704-47A3-A4E5-9DD1A6E35ED5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3C9B0AE-0704-47A3-A4E5-9DD1A6E35ED5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {02B06717-7E49-4734-9AB1-6FC0AC2DA66B}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AWS.SQS.Publish</name>
+    </assembly>
+    <members>
+        <member name="M:AWS.SQS.Publish.Controllers.OrderController.#ctor(Microsoft.Extensions.Logging.ILogger{AWS.SQS.Publish.Controllers.OrderController},MediatR.IMediator)">
+            <summary>
+            
+            </summary>
+            <param name="logger"></param>
+        </member>
+        <member name="M:AWS.SQS.Publish.Controllers.OrderController.CreatOrderAsync(AWS.SQS.Publish.Model.OrderRequest)">
+             <summary>
+             Criar pedido
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 POST /api/order/create
+                 {
+                    "matricula": "0009968",
+                    "nome": "Victor Wilson",
+                    "area": "Diretoria",
+                    "cargo": "Diretor Financeiro",
+                    "salario_bruto": "R$ 12.696,20",
+                    "data_de_admissao": "2012-01-05"
+                 }
+                 
+             </remarks>        
+             <param name="orderRequest"></param>  
+        </member>
+    </members>
+</doc>
