@@ -4,13 +4,13 @@
         <name>AWS.SQS.Publish</name>
     </assembly>
     <members>
-        <member name="M:AWS.SQS.Publish.Controllers.OrderController.#ctor(Microsoft.Extensions.Logging.ILogger{AWS.SQS.Publish.Controllers.OrderController},MediatR.IMediator)">
+        <member name="M:AWS.SQS.Publish.Controllers.OrderController.#ctor(Microsoft.Extensions.Logging.ILogger{AWS.SQS.Publish.Controllers.OrderController},MediatR.IMediator,AWS.SQS.Publish.SQS.IMessageBus)">
             <summary>
             
             </summary>
             <param name="logger"></param>
         </member>
-        <member name="M:AWS.SQS.Publish.Controllers.OrderController.CreatOrderAsync(AWS.SQS.Publish.Model.OrderRequest)">
+        <member name="M:AWS.SQS.Publish.Controllers.OrderController.GetMessagesAsync">
              <summary>
              Criar pedido
              </summary>
@@ -19,16 +19,35 @@
             
                  POST /api/order/create
                  {
-                    "matricula": "0009968",
-                    "nome": "Victor Wilson",
-                    "area": "Diretoria",
-                    "cargo": "Diretor Financeiro",
-                    "salario_bruto": "R$ 12.696,20",
-                    "data_de_admissao": "2012-01-05"
+                    "name": "Victor Wilson",
+                    "total": "R$ 12.696,20"
+                   
                  }
                  
              </remarks>        
              <param name="orderRequest"></param>  
+        </member>
+        <member name="M:AWS.SQS.Publish.Controllers.OrderController.CreateOrderAsync(AWS.SQS.Publish.Model.OrderRequest)">
+             <summary>
+             Criar pedido
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 POST /api/order/create
+                 {
+                    "name": "Victor Wilson",
+                    "total": "R$ 12.696,20"
+                   
+                 }
+                 
+             </remarks>        
+             <param name="orderRequest"></param>  
+        </member>
+        <member name="T:AWS.SQS.Publish.Events.Order.CreatOrderEventHandler">
+            <summary>
+            
+            </summary>
         </member>
     </members>
 </doc>

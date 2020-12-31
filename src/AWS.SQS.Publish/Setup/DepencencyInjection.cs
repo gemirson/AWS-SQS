@@ -13,15 +13,15 @@ namespace AWS.SQS.Publish.Setup
     {
         public static IServiceCollection ResolveDependencies(this IServiceCollection services, IConfiguration config)
         {
-
-            // AWS config and inject
-            services.Configure<ConfigSQS>(config.GetSection("ConfigSQS"));
-            services.AddAWSService<IAmazonSQS>();
-
-            // Bus (Mediator)
+            
             services.AddScoped<IMediatrHandler, MediatrHandler>();
-
+            // AWS config and inject
+           
+            services.AddScoped<SqsClientFactory>();
+            services.AddScoped<IAmazonSQS>(x => x.GetService<SqsClientFactory>().CreateClient);
+            // Bus (Mediator)
             services.AddScoped<IMessageBus, SQSFifo>();
+            
             services.AddScoped<INotificationHandler<CreatedOrderEvent>, CreatOrderEventHandler>();
 
             return services;

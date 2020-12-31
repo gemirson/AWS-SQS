@@ -1,63 +1,82 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AWS.SQS.Publish.Events.Order;
+﻿using AWS.SQS.Publish.Events.Order;
 using AWS.SQS.Publish.Model;
+using AWS.SQS.Publish.SQS;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace AWS.SQS.Publish.Controllers
 {
-    [ApiController]
-    [Route("[api/controller]")]
-    public class OrderController : ControllerBase
+    public class OrderController : BaseController
     {
         
         private readonly ILogger<OrderController> _logger;
         private readonly IMediator _bus;
+        private readonly IMessageBus _messageBus;
+        
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="logger"></param>
-        public OrderController(ILogger<OrderController> logger, IMediator bus)
+        public OrderController(ILogger<OrderController> logger, IMediator bus, IMessageBus messageBus)
         {
             _logger = logger;
             _bus = bus;
+            _messageBus = messageBus;
         }
 
+
+        /// <summary>
+        /// Read all messages
+        /// </summary>
+        /// <remarks>
+        [HttpGet("Messages")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> GetMessagesAsync()
+        {
+            var result = await _messageBus.ReceiveMessagesAsync();
+
+            if (result.Any())
+            {
+               return Ok(result);
+            }
+            _logger.LogError(default(EventId), $"Found fails to {nameof(OrderController)} in GetMessagesAsync");
+            return BadRequest("Error read all messages");
+
+        }
+        
         /// <summary>
         /// Criar pedido
         /// </summary>
         /// <remarks>
         /// Sample request:
         ///
-        ///     POST /api/order/create
+        ///     POST /api/order/bonus
         ///     {
-        ///        "matricula": "0009968",
-        ///        "nome": "Victor Wilson",
-        ///        "area": "Diretoria",
-        ///        "cargo": "Diretor Financeiro",
-        ///        "salario_bruto": "R$ 12.696,20",
-        ///        "data_de_admissao": "2012-01-05"
+        ///        "name": "Victor Wilson",
+        ///        "total": "R$ 12.696,20"
+        ///       
         ///     }
         ///     
         /// </remarks>        
         /// <param name="orderRequest"></param>  
-        [HttpPost("Create")]
+        [HttpPost("Bonus")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> CreatOrderAsync([FromBody] OrderRequest orderRequest)
+        public async Task<ActionResult> CreateOrderAsync([FromBody] OrderRequest orderRequest)
         {
             if (!orderRequest.Notifications.Any())
-            {
-              var result =  await _bus.Send(new CreatedOrderEvent(orderRequest.Id,orderRequest.Total));
-                return Created(string.Empty, result);
+            { await _bus.Publish(new CreatedOrderEvent(orderRequest.Name,orderRequest.Total));
+                return Created(string.Empty, "");
             }
-            _logger.LogError(default(EventId), $"Found fails to {nameof(OrderController)} in BonusCreate {orderRequest.Notifications}");
+            _logger.LogError(default(EventId), $"Found fails to {nameof(OrderController)} in CreateOrderAsync {orderRequest.Notifications}");
            return BadRequest(orderRequest.Notifications);
 
         }

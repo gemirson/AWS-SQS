@@ -26,6 +26,7 @@ namespace AWS.SQS.Publish.SQS
             _configSqs = options.Value;
             _logger = logger;
             _logger.LogDebug(default(EventId), $"NLog injected into {nameof(SQSFifo)}");
+            
         }
 
         public async Task<bool> DeleteMessageAsync(string messageReceiptHandle,
@@ -52,7 +53,7 @@ namespace AWS.SQS.Publish.SQS
             {
                var result = await _sqs.ReceiveMessageAsync(new ReceiveMessageRequest
                 {
-                    QueueUrl = _configSqs.FifoQueueUrl,
+                    QueueUrl = _configSqs.QueueUrl,
                     MaxNumberOfMessages = 10,
                     WaitTimeSeconds = 5,
                 },cancellationToken);
@@ -74,8 +75,8 @@ namespace AWS.SQS.Publish.SQS
                 var message = JsonConvert.SerializeObject(@event);
                 var sendResult = await _sqs.SendMessageAsync(new SendMessageRequest
                 {
-                    MessageGroupId = @event.MessageId.ToString(),
-                    QueueUrl = _configSqs.FifoQueueUrl,
+                  
+                    QueueUrl = _configSqs.QueueUrl,
                     MessageBody = message
                 },cancellationToken:cancellationToken);
 
@@ -91,6 +92,7 @@ namespace AWS.SQS.Publish.SQS
         public void Dispose()
         {
             _sqs?.Dispose();
+            
         }
     }
 }

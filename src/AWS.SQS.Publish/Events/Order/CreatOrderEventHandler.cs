@@ -5,6 +5,9 @@ using MediatR;
 
 namespace AWS.SQS.Publish.Events.Order
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class CreatOrderEventHandler : INotificationHandler<CreatedOrderEvent>
     {
         private readonly IMessageBus _messageBus;
